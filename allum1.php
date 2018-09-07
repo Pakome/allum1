@@ -3,12 +3,27 @@
 require_once('Match.php');
 require_once('IA.php');
 
+// Initiate classes
 $match = new Match();
-$IA = new IA();
+$IA = new AI();
 
-$match->displayMatches();
-$match->askTurn();
+// echo rand(1, 3);
+// echo rand(1, 3);
+// echo rand(1, 3);
+// echo rand(1, 3);
+// echo rand(1, 3);
+// echo rand(1, 3);
+// echo rand(1, 3);
+
+// Start a new game
+$match->startGame();
 
 
-
+// echo rand(1, 3);
+// echo rand(1, 3);
+// echo rand(1, 3);
+// echo rand(1, 3);
+// echo rand(1, 3);
+// echo rand(1, 3);
+// echo rand(1, 3);
 ?>

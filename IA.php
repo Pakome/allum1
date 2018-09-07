@@ -1,6 +1,6 @@
 <?php
 
-Class IA {
+Class AI {
 
 	private $errors = [];
 
