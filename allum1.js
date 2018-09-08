@@ -5,31 +5,40 @@ AITurn = 0;
 // If the player entered a wrong value equals 1 else equals 0
 input = 0;
 difficulty = "easy";
-const readline = require('readline');
-const rl = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout
-});
 
 // Functions
 function displayMatches() {
 	for ($i = 0; $i < matches; $i++) {
-		process.stdout.write("| ")
+		process.stdout.write("| ");
 	}
-	process.stdout.write("\n")
+	process.stdout.write("\n");
 }
 
-function readlineJS() {
+async function readlineJS() {
+	displayMatches();
 	while (matches > 1) {
-		rl.question("Your turn:\n$ ", (answer) => {
-		    rl.close();
-		    askTurn(answer);
+		var result = await resolveAfterReply();
+		askTurn(result);
+		wasteMyTime = await takeYourTime();
+	}
+}
+
+function resolveAfterReply() {
+    return new Promise(resolve => {
+    	const readline = require('readline');
+		const rl = readline.createInterface({
+			input: process.stdin,
+			output: process.stdout
 		});
-	}	
+    	rl.question("Your turn:\n$ ", async function(answer) {
+			rl.close();
+			resolve(answer);
+        });
+    });
 }
 
 function askTurn(answer) {
-	if (input === 0) {
+	if (input === 1) {
 		displayMatches();
 	}
 	answer = Number.parseInt(answer);
@@ -55,18 +64,19 @@ function askTurn(answer) {
 	input = 0;
 	matches = matches - answer;
 
+	if (input === 0) {
+		displayMatches();
+		iaTurn();
+	}
+
 	if (matches === 1) {
 		if (difficulty === "easy") {
-			console.log("Well done, you won, try intermediate difficulty if you dare.");
+			console.log("Well done, you won, try intermediate difficulty.");
 		} else if (difficulty === "intermediate") {
 			console.log("Well done, you won, try hard difficulty if you dare, it won't be that easy.")
 		} else if (difficulty === "hard") {
 			console.log("Welcome home master.");
 		}
-	}
-	if (input === 0) {
-		displayMatches();
-		iaTurn();
 	}
 }
 
@@ -81,6 +91,7 @@ function iaTurn() {
 			} else {
 				matches = matches - rand(1, 3);
 			}
+			displayMatches();
 			if (matches === 1) {
 				console.log("You lost. Close one, try again.");
 			}
@@ -88,47 +99,37 @@ function iaTurn() {
 	} else if (difficulty === "intermediate" && matches > 1) {
 		console.log("AI is thinking . . .");
 	} else if (difficulty === "hard" && matches > 1) {
-		console.log("AI is thinking . . .");
+		console.log("AI is thinking really hard . . .");
+		checkMultiple();
 	}
 }
 
+function checkMultiple() {
+	if ((matches -1) % 4 === 0) {
+		return "one";
+	} else if ((matches - 2) % 4 === 0) {
+		return "two";
+	} else if ((matches - 3) % 4 === 0) {
+		return "three";
+	} else {
+		return false;
+	}
+}
+
+// Return a random number between [min, max]
+function rand(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min +1)) + min;
+}
+
+// Stop the execution for 1 second
+function takeYourTime() {
+    return new Promise(resolve => {
+    	setTimeout(function() { 
+			resolve();
+		}, 1001);
+    });
+}
+
 readlineJS();
-
-
-	// public function iaTurn() {
-	// 	if ($this->difficulty == "easy" && $this->matches > 1) {
-
-	// 		echo "AI is thinking . . .\n";
-	// 		sleep(1);
-	// 		if ($this->matches == 3) {
-	// 			$this->matches = $this->matches - rand(1, 2);
-	// 		} else if ($this->matches == 2) {
-	// 			$this->matches = $this->matches - 1;
-	// 		} else {
-	// 			$this->matches = $this->matches - rand(1, 3);
-	// 		}
-	// 		if ($this->matches == 1) {
-	// 			echo $this->colors->getColoredString("You lost, close one, try again.", "black", "green") . "\n";
-	// 		}
-	// 	} else if ($this->difficulty == "hard" && $this->matches > 1) {
-	// 		echo "AI is thinking really hard . . .\n";
-	// 		sleep(1);
-
-	// 		echo checkMultiple();
-
-	// 	}
-		
-	// }
-
-	// function checkMutliple() {
-	// 	$one = $this->matches - 1;
-	// 	$two = $this->matches - 2;
-	// 	$three = $this->matches - 3;
-	// 	if ($one % 4 == 0) {
-	// 		return true;
-	// 	} else if ($two % 4 == 0) {
-	// 		return true;
-	// 	} else if ($three % 4 == 0) {
-	// 		return true;
-	// 	} else return false;
-	// }
