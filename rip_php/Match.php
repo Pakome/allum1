@@ -10,7 +10,7 @@ class Match {
 
 	// If the player entered a wrong value equals 1 else equals 0
 	private $input = 0;
-	private $difficulty = "easy";
+	private $difficulty = "hard";
 
 	public function __construct($matches = 11) {
 		$this->matches = $matches;
@@ -88,20 +88,31 @@ class Match {
 			} else {
 				$this->matches = $this->matches - rand(1, 3);
 			}
-
-			// $this->displayMatches();
 			if ($this->matches == 1) {
 				echo $this->colors->getColoredString("You lost, close one, try again.", "black", "green") . "\n";
 			}
 		} else if ($this->difficulty == "hard" && $this->matches > 1) {
-			echo "AI is thinking . . .\n";
+			echo "AI is thinking really hard . . .\n";
 			sleep(1);
-			
-		}
 
+			echo checkMultiple();
+
+		}
 		
 	}
 
+	function checkMutliple() {
+		$one = $this->matches - 1;
+		$two = $this->matches - 2;
+		$three = $this->matches - 3;
+		if ($one % 4 == 0) {
+			return true;
+		} else if ($two % 4 == 0) {
+			return true;
+		} else if ($three % 4 == 0) {
+			return true;
+		} else return false;
+	}
 
 
 }
