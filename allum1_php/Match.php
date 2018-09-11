@@ -23,7 +23,47 @@ class Match {
 
 	public function displayMatches() {
 		for ($i = 0; $i < $this->matches; $i++) {
-			echo "| ";
+			echo "\033[31m..... \033[0m";
+		}
+		echo "\n";
+		for ($i = 0; $i < $this->matches; $i++) {
+			echo "\033[31m..... \033[0m";
+		}
+		echo "\n";
+		for ($i = 0; $i < $this->matches; $i++) {
+			echo "\033[31m..... \033[0m";
+		}
+		echo "\n";
+		for ($i = 0; $i < $this->matches; $i++) {
+			echo "|   | ";
+		}
+		echo "\n";
+		for ($i = 0; $i < $this->matches; $i++) {
+			echo "|   | ";
+		}
+		echo "\n";
+		for ($i = 0; $i < $this->matches; $i++) {
+			echo "|   | ";
+		}
+		echo "\n";
+		for ($i = 0; $i < $this->matches; $i++) {
+			echo "|   | ";
+		}
+		echo "\n";
+		for ($i = 0; $i < $this->matches; $i++) {
+			echo "|   | ";
+		}
+		echo "\n";
+		for ($i = 0; $i < $this->matches; $i++) {
+			echo "|   | ";
+		}
+		echo "\n";
+		for ($i = 0; $i < $this->matches; $i++) {
+			echo "|   | ";
+		}
+		echo "\n";
+		for ($i = 0; $i < $this->matches; $i++) {
+			echo "|___| ";
 		}
 		echo "\n";
 	}

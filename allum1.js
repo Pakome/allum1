@@ -9,15 +9,15 @@ difficulty = 0;
 // Functions
 function displayMatches() {
 	for ($i = 0; $i < matches; $i++) {
-		process.stdout.write("..... ");
+		process.stdout.write("\033[31m..... \033[0m");
 	}
 	process.stdout.write("\n");
 	for ($i = 0; $i < matches; $i++) {
-		process.stdout.write("..... ");
+		process.stdout.write("\033[31m..... \033[0m");
 	}
 	process.stdout.write("\n");
 	for ($i = 0; $i < matches; $i++) {
-		process.stdout.write("..... ");
+		process.stdout.write("\033[31m..... \033[0m");
 	}
 	process.stdout.write("\n");
 	for ($i = 0; $i < matches; $i++) {
@@ -71,6 +71,7 @@ async function readlineJS() {
 	if (restart === "quit" || restart === "q") {
 		return;
 	} else {
+		matches = 11;
 		readlineJS();
 	}
 }
