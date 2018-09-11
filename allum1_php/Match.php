@@ -113,8 +113,6 @@ class Match {
 			return true;
 		} else return false;
 	}
-
-
 }
 
 ?>
