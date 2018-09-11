@@ -4,40 +4,92 @@ turn = 0;
 AITurn = 0;
 // If the player entered a wrong value equals 1 else equals 0
 input = 0;
-difficulty = "easy";
+difficulty = 0;
 
 // Functions
 function displayMatches() {
 	for ($i = 0; $i < matches; $i++) {
-		process.stdout.write("| ");
+		process.stdout.write("..... ");
+	}
+	process.stdout.write("\n");
+	for ($i = 0; $i < matches; $i++) {
+		process.stdout.write("..... ");
+	}
+	process.stdout.write("\n");
+	for ($i = 0; $i < matches; $i++) {
+		process.stdout.write("..... ");
+	}
+	process.stdout.write("\n");
+	for ($i = 0; $i < matches; $i++) {
+		process.stdout.write("|   | ");
+	}
+	process.stdout.write("\n");
+	for ($i = 0; $i < matches; $i++) {
+		process.stdout.write("|   | ");
+	}
+	process.stdout.write("\n");
+	for ($i = 0; $i < matches; $i++) {
+		process.stdout.write("|   | ");
+	}
+	process.stdout.write("\n");
+	for ($i = 0; $i < matches; $i++) {
+		process.stdout.write("|   | ");
+	}
+	process.stdout.write("\n");
+	for ($i = 0; $i < matches; $i++) {
+		process.stdout.write("|   | ");
+	}
+	process.stdout.write("\n");
+	for ($i = 0; $i < matches; $i++) {
+		process.stdout.write("|   | ");
+	}
+	process.stdout.write("\n");
+	for ($i = 0; $i < matches; $i++) {
+		process.stdout.write("|   | ");
+	}
+	process.stdout.write("\n");
+	for ($i = 0; $i < matches; $i++) {
+		process.stdout.write("|___| ");
 	}
 	process.stdout.write("\n");
 }
 
 async function readlineJS() {
-	displayMatches();
-	while (matches > 1) {
-		var result = await resolveAfterReply();
-		askTurn(result);
-		wasteMyTime = await takeYourTime();
+	difficulty = await resolveAfterReply("Choose your difficulty: easy, intermediate or hard\n");
+	if (difficulty === "easy" || difficulty === "intermediate" || difficulty === "hard") {
+		displayMatches();
+		while (matches > 1) {
+			var result = await resolveAfterReply("Your turn:\n$ ");
+			askTurn(result, difficulty);
+			wasteMyTime = await takeYourTime();
+		}
+	} else { 
+		console.log("Difficulty '" + difficulty + "' is not known");
+		return;
+	}
+	var restart = await resolveAfterReply("Press enter to keep playing, type quit to exit ");
+	if (restart === "quit" || restart === "q") {
+		return;
+	} else {
+		readlineJS();
 	}
 }
 
-function resolveAfterReply() {
+function resolveAfterReply(ask) {
     return new Promise(resolve => {
     	const readline = require('readline');
 		const rl = readline.createInterface({
 			input: process.stdin,
 			output: process.stdout
 		});
-    	rl.question("Your turn:\n$ ", async function(answer) {
+    	rl.question(ask, async function(answer) {
 			rl.close();
 			resolve(answer);
         });
     });
 }
 
-function askTurn(answer) {
+function askTurn(answer, difficulty) {
 	if (input === 1) {
 		displayMatches();
 	}
@@ -66,7 +118,7 @@ function askTurn(answer) {
 
 	if (input === 0) {
 		displayMatches();
-		iaTurn();
+		iaTurn(difficulty);
 	}
 
 	if (matches === 1) {
@@ -80,7 +132,7 @@ function askTurn(answer) {
 	}
 }
 
-function iaTurn() {
+function iaTurn(difficulty) {
 	if (difficulty === "easy" && matches > 1) {
 		console.log("AI is thinking . . .");
 		setTimeout(function() {
@@ -98,21 +150,38 @@ function iaTurn() {
 		}, 1000);
 	} else if (difficulty === "intermediate" && matches > 1) {
 		console.log("AI is thinking . . .");
+		setTimeout(function() {
+			if ((matches - 2) % 4 === 0) {
+				matches = matches - 1;
+			} else if ((matches - 3) % 4 === 0) {
+				matches = matches - 2;
+			} else if ((matches - 4) % 4 === 0) {
+				matches = matches - 3;
+			} else {
+				matches = matches - rand(1, 3);
+			}
+			displayMatches();
+			if (matches === 1) {
+				console.log("You lost. Close one, try again.");
+			}
+		}, 1000);
 	} else if (difficulty === "hard" && matches > 1) {
 		console.log("AI is thinking really hard . . .");
-		checkMultiple();
-	}
-}
-
-function checkMultiple() {
-	if ((matches -1) % 4 === 0) {
-		return "one";
-	} else if ((matches - 2) % 4 === 0) {
-		return "two";
-	} else if ((matches - 3) % 4 === 0) {
-		return "three";
-	} else {
-		return false;
+		setTimeout(function() {
+			if ((matches - 2) % 4 === 0) {
+				matches = matches - 1;
+			} else if ((matches - 3) % 4 === 0) {
+				matches = matches - 2;
+			} else if ((matches - 4) % 4 === 0) {
+				matches = matches - 3;
+			} else {
+				matches = matches - 1;
+			}
+			displayMatches();
+			if (matches === 1) {
+				console.log("You lost. Close one, try again.");
+			}
+		}, 1000);
 	}
 }
 
